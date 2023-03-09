@@ -39,7 +39,7 @@ def print_stat_report(searchers, problems, searcher_names=None):
             counter = prob.counter;  # get the counter dict
             
             # get solution cost
-            if soln is None:        
+            if soln is None:    
                 counter.update(solndepth=0, solncost=0)
             else:
                 counter.update(solndepth=soln.depth, solncost=soln.path_cost)
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     actions_available = example_grid_problem.actions(state=example_state)
     print(actions_available)
     print('------------------------------------------------------------------')
-    '''
+    
     # get some statistics on generated nodes, popped nodes, solution
     searchers1 = [breadth_first_search, depth_first_search, uniform_cost_search]
     problems = [example_route_problem, example_grid_problem]
@@ -130,4 +130,3 @@ if __name__ == "__main__":
     print(get_path_states(goal_node))
     print('printing solution-actions-path')
     print(get_path_actions(goal_node))
-    '''

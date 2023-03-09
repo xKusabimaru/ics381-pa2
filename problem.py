@@ -38,7 +38,9 @@ class ConstrainedRouteProblem:
         return tuple(state_list)
     
     def action_cost(self, state1, action, state2):
-        if self.map_edges[state1[0], action] != None:
+        map_edges_list = list(self.map_edges.keys())
+
+        if (state1[0], action) in map_edges_list:
             return self.map_edges[state1[0], action]
         else:
             return self.map_edges[action, state1[0]]
