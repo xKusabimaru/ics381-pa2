@@ -1,4 +1,6 @@
 import heapq
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 class Node:
 
@@ -144,3 +146,69 @@ def astar_search(problem, h, treelike=False):
         return best_first_search_treelike(problem, f)
     else:
         return best_first_search(problem, f)
+    
+def visualize_route_problem_solution(problem, goal_node, file_name):
+    nodes = problem.map_coords.keys()
+    edges = problem.map_edges.keys()
+    path_of_states = [state[0] for state in get_path_states(goal_node)]
+    
+    for node in nodes:
+        x = problem.map_coords[node][0]
+        y = problem.map_coords[node][1]
+
+        if node == problem.initial_agent_loc:
+            c = "red"
+        elif node == problem.goal_loc:
+            c = "green"
+        elif node in problem.must_visit:
+            c = "blue"
+        else:
+            c = "black"
+
+        plt.scatter(x, y, marker="s", color=c)
+
+    for edge in edges:
+        x1 = problem.map_coords[edge[0]][0]
+        y1 = problem.map_coords[edge[0]][1]
+        x2 = problem.map_coords[edge[1]][0]
+        y2 = problem.map_coords[edge[1]][1]
+
+        plt.arrow(x1, y1, x2-x1, y2-y1, head_width=0, color="black")
+
+    for i in range(len(path_of_states)-1):
+        x1 = problem.map_coords[path_of_states[i]][0]
+        y1 = problem.map_coords[path_of_states[i]][1]
+        x2 = problem.map_coords[path_of_states[i+1]][0]
+        y2 = problem.map_coords[path_of_states[i+1]][1]
+
+        plt.arrow(x1, y1, x2-x1, y2-y1, head_width=0.1, color="magenta")
+        
+    plt.savefig(file_name, format="png")
+    plt.close()
+
+def visualize_grid_problem_solution(problem, goal_node, file_name):
+    monsters = problem.monster_coords
+    foods = problem.food_coords
+    path_of_states = [(state[0], state[1]) for state in get_path_states(goal_node)]
+
+    for monster in monsters:
+        plt.scatter(monster[0], monster[1], color="black", marker="*", s=2500)
+
+    for food in foods:
+        plt.scatter(food[0], food[1], color="green", marker="h", s=1000)
+
+    plt.scatter(problem.initial_agent_loc[0], problem.initial_agent_loc[1], color="red", marker="^", s=1000)
+
+    for i in range(len(path_of_states)-1):
+        x1 = path_of_states[i][0]
+        y1 = path_of_states[i][1]
+        x2 = path_of_states[i+1][0]
+        y2 = path_of_states[i+1][1]
+
+        plt.arrow(x1, y1, x2-x1, y2-y1, head_width=0.1, color="magenta")
+
+    plt.ylim([0.5, problem.N + 0.5])
+    plt.xlim([0.5, problem.N + 0.5])
+
+    plt.savefig(file_name, format="png")
+    plt.close()
