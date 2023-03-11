@@ -182,22 +182,22 @@ def visualize_route_problem_solution(problem, goal_node, file_name):
         y2 = problem.map_coords[path_of_states[i+1]][1]
 
         plt.arrow(x1, y1, x2-x1, y2-y1, head_width=0.1, color="magenta")
-        
+    
     plt.savefig(file_name, format="png")
     plt.close()
 
 def visualize_grid_problem_solution(problem, goal_node, file_name):
     monsters = problem.monster_coords
     foods = problem.food_coords
-    path_of_states = [(state[0], state[1]) for state in get_path_states(goal_node)]
+    path_of_states = [(state[1], state[0]) for state in get_path_states(goal_node)]
 
     for monster in monsters:
-        plt.scatter(monster[0], monster[1], color="black", marker="*", s=2500)
+        plt.scatter(monster[1], monster[0], color="black", marker="*", s=2500)
 
     for food in foods:
-        plt.scatter(food[0], food[1], color="green", marker="h", s=1000)
+        plt.scatter(food[1], food[0], color="green", marker="h", s=1000)
 
-    plt.scatter(problem.initial_agent_loc[0], problem.initial_agent_loc[1], color="red", marker="^", s=1000)
+    plt.scatter(problem.initial_agent_loc[1], problem.initial_agent_loc[0], color="red", marker="^", s=1000)
 
     for i in range(len(path_of_states)-1):
         x1 = path_of_states[i][0]
@@ -209,6 +209,6 @@ def visualize_grid_problem_solution(problem, goal_node, file_name):
 
     plt.ylim([0.5, problem.N + 0.5])
     plt.xlim([0.5, problem.N + 0.5])
-
+    
     plt.savefig(file_name, format="png")
     plt.close()
